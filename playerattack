@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class playerattack : MonoBehaviour
+{
+
+    public int damage;
+    public float time;
+
+    private Animator anim;
+    private PolygonCollider2D col1ider2D;
+    void Start()
+    {
+        anim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+        col1ider2D = GetComponent<PolygonCollider2D>();
+    }
+    // Update is called once per frame
+
+    void Update()
+    {
+        Attack();
+    }
+
+
+    void Attack()
+    {
+        if (Input.GetButtonDown("Attack"))
+        {
+            col1ider2D.enabled = true;
+            anim.SetTrigger("Attack");
+            StartCoroutine(DisableHitBox());
+        }
+    }
+
+    IEnumerator DisableHitBox()
+    {
+        yield return new WaitForSeconds(time);
+        col1ider2D.enabled = false;
+    }
+
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.GetComponent<enermy>().TakeDamage(damage);
+        }
+
+    }
+
+
+
+
+}
