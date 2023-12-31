@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class pickupUI : MonoBehaviour
+{
+    public int startCoinQuantity;
+    public Text coinQuantity;
+    public static int CurrentCoinQuantity;
+    // Start is called before the first frame updateO raferences
+    void Start()
+    {
+        CurrentCoinQuantity = startCoinQuantity;
+    }
+    // Update is called once per framebraier
+    void Update()
+    {
+        coinQuantity.text = CurrentCoinQuantity.ToString();
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("player") &&
+                    other.GetType().ToString() == "UnityEngine.CapsuleCollider2D")
+        {
+            pickupUI.CurrentCoinQuantity += 1
+                            ; Destroy(gameObject);
+        }
+
+
+
+    }
+
+
+
+
+}
