@@ -1,0 +1,62 @@
+using UnityEngine;
+using System.Collections;
+public class forcework : MonoBehaviour
+{
+    public float forceWorkDuration = 10f;
+    private bool isForceWorkActive = false;
+
+    // 玩家初始位置
+    private Vector3 initialPosition;
+
+    // 在这里添加对动画状态机的引用
+    Animator animator;
+
+    private void Start()
+    {
+        // 获取玩家初始位置
+        initialPosition = transform.position;
+
+        // 初始化动画状态机引用
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        // 在forcework状态下禁用玩家控制
+       
+    }
+
+    private IEnumerator StartForceWork()
+    {
+        // 在这里播放动画状态机中的动画
+         animator.Play("ForceWorkAnimation");
+
+        // 设置forcework状态为激活
+        isForceWorkActive = true;
+
+        // 移动玩家到指定位置
+        transform.position = new Vector3(0.54f, 2.72f, 0f);
+
+        // 等待指定时间
+        yield return new WaitForSeconds(forceWorkDuration);
+        // 在这里停止播放动画状态机中的动画
+       animator.Play("IdleAnimation");
+
+        // 设置forcework状态为非激活
+        isForceWorkActive = false;
+    }
+
+
+
+    private IEnumerator ForceWorkTimer()
+    {
+        while (true)
+        {
+            // 每分钟进入一次forcework状态
+            yield return new WaitForSeconds(60f);
+
+            // 启动forcework状态
+            StartCoroutine(StartForceWork());
+        }
+    }
+}
