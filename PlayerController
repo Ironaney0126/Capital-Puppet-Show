@@ -1,0 +1,175 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    public float runSpeed;
+    private Rigidbody2D myRigidbody;
+    private Animator myAnim;
+    public Transform camPos;
+    public Transform charPos;
+    public Vector3 LockPos;
+    public float camY;
+    private Animator animator;
+    private bool isKPressed = false;
+
+
+    // Start is called before the first frame updateO referencesvoid Start()
+    void Start()
+    {
+        myRigidbody = GetComponent<Rigidbody2D>();
+        myAnim = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+    }
+    void Update()
+    {
+        Filp();
+        /*Attack()*/;
+        Run();
+        CamMove();
+        Sleep();
+        BBQ();
+        Music();
+        Work();
+
+    }
+
+    void Filp()
+    {
+        bool plyerHasXAxisSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
+
+        if (plyerHasXAxisSpeed)
+        {
+            if (myRigidbody.velocity.x > 0.1f)
+            {
+                transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
+            if (myRigidbody.velocity.x < -0.1f)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+}
+
+    void CamMove()
+    {
+
+        LockPos = new Vector3(charPos.position.x, charPos.position.y + camY, -2);
+        camPos.position = LockPos;
+
+    }
+    
+    //void Attack()
+    //{
+
+    //    if (Input.GetButtonDown("Attack"))
+    //    {
+
+    //        myAnim.SetTrigger("Attack");
+    //    }
+    //}
+
+    void Sleep()
+    
+    {
+        // 检查是否按下了K键
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            // 设置Animator的布尔参数为true，切换到状态2
+            animator.SetBool("Sleep", true);
+            isKPressed = true;
+        }
+
+        // 检查是否松开了K键
+        if (Input.GetKeyUp(KeyCode.K) && isKPressed)
+        {
+            // 设置Animator的布尔参数为false，切换回状态1
+            animator.SetBool("Sleep", false);
+            isKPressed = false;
+        }
+    }
+
+    void BBQ()
+
+    {
+        // 检查是否按下了K键
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            // 设置Animator的布尔参数为true，切换到状态2
+            animator.SetBool("BBQ", true);
+            isKPressed = true;
+        }
+
+        // 检查是否松开了K键
+        if (Input.GetKeyUp(KeyCode.L) && isKPressed)
+        {
+            // 设置Animator的布尔参数为false，切换回状态1
+            animator.SetBool("BBQ", false);
+            isKPressed = false;
+        }
+    }
+
+
+    // Update is called once per frameO referencesvoid Update()
+    void Run()
+        {
+            float moveDir = Input.GetAxis("Horizontal");
+
+            Vector2 playerVel = new Vector2(moveDir * runSpeed, myRigidbody.velocity.y);
+            myRigidbody.velocity = playerVel;
+            bool plyerHasXAxisSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
+            myAnim.SetBool("Run", plyerHasXAxisSpeed);
+        }
+
+
+
+
+
+    void Music()
+
+    {
+        // 检查是否按下了H键
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            // 设置Animator的布尔参数为true，切换到状态2
+            animator.SetBool("MUSIC", true);
+            isKPressed = true;
+        }
+
+        // 检查是否松开了K键
+        if (Input.GetKeyUp(KeyCode.H) && isKPressed)
+        {
+            // 设置Animator的布尔参数为false，切换回状态1
+            animator.SetBool("MUSIC", false);
+            isKPressed = false;
+        }
+    }
+
+
+
+    void Work()
+
+    {
+        // 检查是否按下了H键
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            // 设置Animator的布尔参数为true，切换到状态2
+            animator.SetBool("WORK", true);
+            isKPressed = true;
+        }
+
+        // 检查是否松开了K键
+        if (Input.GetKeyUp(KeyCode.Q) && isKPressed)
+        {
+            // 设置Animator的布尔参数为false，切换回状态1
+            animator.SetBool("WORK", false);
+            isKPressed = false;
+        }
+    }
+
+
+
+
+
+}
