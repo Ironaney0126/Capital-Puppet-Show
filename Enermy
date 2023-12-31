@@ -1,0 +1,72 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class enermy : MonoBehaviour
+{
+    public int health;
+    public int damage;
+
+    public float flashTime;
+
+    public GameObject dropCoin;
+   
+    private bool isDead = false;
+
+    private SpriteRenderer sr;
+    private Color originalColor;
+    // Start is called before the first frame update
+
+    void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        originalColor = sr.color;
+    }
+    void Update()
+    {
+        if (health <= 0 && !isDead)
+        {
+            isDead = true;
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (isDead)
+        {
+            // 获取敌人的当前位置
+            Vector3 enemyPosition = transform.position;
+
+            // 将Y轴坐标上移一定距离（例如1个单位），以确保生成金币在敌人的上方
+            enemyPosition.y += 1.0f; // 调整1.0f为你需要的上移距离
+
+            Instantiate(dropCoin, transform.position, Quaternion.identity);
+
+            // 销毁敌人
+            Destroy(gameObject);
+
+            isDead = false; // 重置标志，以便不重复执行
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        FlashColor(flashTime);
+
+    }
+
+    void FlashColor(float time)
+    {
+        sr.color = Color.red;
+        Invoke("ResetColor", time);
+    }
+
+    void ResetColor()
+    {
+        sr.color = originalColor;
+    }
+
+
+
+}
