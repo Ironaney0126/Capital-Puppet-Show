@@ -1,0 +1,23 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ButtonHandler : MonoBehaviour
+{
+    public GameObject dialogueBox;
+    public Image UI_E;
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ShowDialogueBox();
+            //ShowUI_E();
+        }
+    }
+
+    void ShowDialogueBox()
+    {
+        dialogueBox.SetActive(true);
+        //UI_E.SetActive(false);
+    }
+}
+
